@@ -27,7 +27,6 @@ namespace Benchmark.Models
             };
             string nameSubstring = "John";
             string address = GetAddressByNameSubstring(addressDictionary, nameSubstring);
-            Console.WriteLine(address);
         }
     }
 }

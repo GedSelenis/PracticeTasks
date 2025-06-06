@@ -40,18 +40,37 @@ namespace PracticeTasks.Extensions
             }
             foreach (var item in source)
             {
-                minValues.Sort();
-                minValues.Reverse();
-                for (int i = 0; i < n; i++)
-                {
-                    if (item < minValues[i])
-                    {
-                        minValues[i] = item;
-                        break;
-                    }
-                }
+                minValues = compareMin(item, minValues, 0);
             }
 
+            return minValues;
+        }
+        public static List<int> CustomMin2(this IEnumerable<int> source, int n)
+        {
+            if (source == null || !source.Any())
+            {
+                throw new ArgumentException("Source collection cannot be null or empty.", nameof(source));
+            }
+            List<int> minValues = new List<int>();
+            source = source.ToList().Order();
+            
+            minValues = source.Take(n).ToList();
+
+            return minValues;
+        }
+
+        private static List<int> compareMin(int nextMin, List<int> minValues, int startIndex) // m n Log n
+        {
+            for (int i = startIndex; i < minValues.Count; i++)
+            {
+                if (nextMin < minValues[i])
+                {
+                    int currentMin = minValues[i];
+                    minValues[i] = nextMin;
+                    compareMin(currentMin, minValues, i + 1);
+                    break;
+                }
+            }
             return minValues;
         }
     }

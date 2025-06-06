@@ -65,10 +65,58 @@ Console.WriteLine(el ?? "Element not found");
 
 
 
+// Hash set compare parameters
+//Two differnt insance of class
+
+ClassA classA = new ClassA(1);
+ClassA classB = new ClassA(2);
+ClassA classC = new ClassA(1);
+
+HashSet<ClassA> hashSet1 = new HashSet<ClassA>();
+hashSet1.Add(classA);
+hashSet1.Add(classB);
+hashSet1.Add(classA);
+Console.WriteLine($"HashSet1 (ABA) count: {hashSet1.Count}"); // Output: 2
+
+HashSet<ClassA> hashSet2 = new HashSet<ClassA>();
+hashSet2.Add(classA);
+hashSet2.Add(classB);
+hashSet2.Add(classC);
+Console.WriteLine($"HashSet2 (ABC) count: {hashSet2.Count}"); // Output: 3
+
+
+// =======
+
+StructA structA = new StructA(1);
+StructA structB = new StructA(2);
+StructA structC = new StructA(1);
+
+HashSet<StructA> hashSet3 = new HashSet<StructA>();
+hashSet3.Add(structA);
+hashSet3.Add(structB);
+hashSet3.Add(structA);
+Console.WriteLine($"HashSet3 (ABA) count: {hashSet3.Count}"); // Output: 2
+
+HashSet<StructA> hashSet4 = new HashSet<StructA>();
+hashSet4.Add(structA);
+hashSet4.Add(structB);
+hashSet4.Add(structC);
+Console.WriteLine($"HashSet4 (ABC) count: {hashSet4.Count}"); // Output: 2
+// GetHashcode and equalas and IEquitable (Dictionary or hashset)
+// Benchmark process bigcollection of 1mil elements and try to et element
+// How to handle case ignoring for stings as a key in dictionary
 
 
 
-[Benchmark]
+//What is struct?
+// How .Map works?
+//O notation of alghorithm performance
+// Packing and Unpacking operations in C#
+
+
+// Queue, Stack, LinkedList, List, HashSet, Dictionary, SortedDictionary,SortedSet.
+// Write at beggining, at end, at random, Read element from beginning, From the end, Search operation(Except queue and stack)
+[Benchmark] 
 string GetAddressByNameSubstring(Dictionary<string, string> addressDict, string nameSubstring)
 {
     var address = addressDict.FirstOrDefault(x => x.Key.Contains(nameSubstring, StringComparison.OrdinalIgnoreCase)).Value;
@@ -77,7 +125,7 @@ string GetAddressByNameSubstring(Dictionary<string, string> addressDict, string 
 
 int FindFibanochi(int n)
 {
-    List<int> FibSeqance = new List<int>();
+    List<int> FibSeqance = new List<int>(); // Agrgate function
     Enumerable.Range(0, n)
         .ToList()
         .ForEach(index => FibSeqance.Add((index == 0 ? 0 : index ==1 ? 1 : FibSeqance[index - 2] + FibSeqance[index - 1])));

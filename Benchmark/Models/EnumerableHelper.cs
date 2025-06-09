@@ -47,6 +47,14 @@ namespace Benchmark.Models
             _sortedSet = GenerateSortedSet(BegginingListSize);
             _queue = GenerateQueue(BegginingListSize);
             _stack = GenerateStack(BegginingListSize);
+            _listEmpty = new List<int>();
+            _linkedListEmpty = new LinkedList<int>();
+            _hashSetEmpty = new HashSet<int>();
+            _dictEmpty = new Dictionary<int, int>();
+            _sortedDictEmpty = new SortedDictionary<int, int>();
+            _sortedSetEmpty = new SortedSet<int>();
+            _queueEmpty = new Queue<int>();
+            _stackEmpty = new Stack<int>();
         }
 
         #region List Operations

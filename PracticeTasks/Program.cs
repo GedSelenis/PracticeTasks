@@ -1,7 +1,10 @@
 ﻿using PracticeTasks.Extensions;
 using PracticeTasks.Models;
 using BenchmarkDotNet.Attributes;
+using System.Text;
 
+
+runThis();
 // Task 1
 Dictionary<string,string> addressDictionary = new Dictionary<string, string>()
 {
@@ -161,8 +164,72 @@ int FindFibanochi3(int n)
 int FindFibanochi4(int n)
 {
     List<int> fibonachi = new List<int>() { 0, 1 };
+
+
+    var fib = Enumerable.Range(0, n).Aggregate((first: 0, second: 1), (acc, n) => (acc.second, acc.first + acc.second));
+    var sum = Enumerable.Range(0, n).Aggregate(0, (acc, n) => acc + n);
+    var max = Enumerable.Repeat(0, n).Aggregate(default(int?), (acc, n) => acc.HasValue ? Math.Max(acc.Value, n) : n);
+
+    var gList = new List<string> { "apple", "banana", "cherry" };
+
+    var concatenated = gList.Aggregate(new StringBuilder(), 
+        (current, next) => (current.Length > 0 ? current.Append(","): current).Append(next));
+
     Enumerable.Range(0, n)
         .ToList()
         .ForEach(index => { fibonachi.Add(fibonachi.Aggregate((a, b) => a + b)); fibonachi.RemoveAt(0); });
     return fibonachi[0];
+}
+
+void runThis()
+{
+
+    var list = new List<int> { 1, 2, 4, 5, 6, 7, 8, 9 };
+
+    var items = list.Where(x => x > 5).Where(s => s % 2 == 1).Select(x => PrintValues(x)).ToList();
+    Console.WriteLine("!!!!!");
+    if (items.Any())
+    {
+        var firstItem = items.First();
+        Console.WriteLine($"First item greater than 5: {firstItem}");
+    }
+
+    var result = new List<int>();
+    foreach (var i in list)
+    {
+        
+        if (i > 5)
+        {
+            if (i % 2 == 1)
+            { 
+            //result.Add(PrintValues(i)); // PrintValues(i) is not needed here, as we are collecting values in result
+                result.Add(i);
+
+                PrintValues(i);
+            }
+            //break;
+        }
+    }
+
+    //var selectItems = new List<int>();
+    //foreach(var x in list)
+    //{
+    //    selectItems.Add(PrintValues(x));
+    //}
+
+    //var whereItems = new List<int>();
+    //foreach(var x in selectItems)
+    //{
+    //    if (x > 5)
+    //    {
+    //        whereItems.Add(x);
+    //    }
+    //}
+
+
+    int PrintValues(int value)
+    {
+        Console.WriteLine(value);
+        return value;
+    }
 }

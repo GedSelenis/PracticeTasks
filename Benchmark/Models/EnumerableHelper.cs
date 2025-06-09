@@ -7,21 +7,30 @@ using System.Threading.Tasks;
 
 namespace Benchmark.Models
 {
-    [SimpleJob(launchCount: 1, warmupCount: 10, iterationCount: 100, invocationCount: 10)]
+    [SimpleJob(launchCount: 1, warmupCount: 10, iterationCount: 10, invocationCount: 10)]
     public class EnumerableHelper
     {
-        private const int Iterations = 10000;
+        private const int Iterations = 100000;
         private const int BegginingListSize = 5;
         private const int RandomSeed = 5;
-        private static int RandomSize = 100;
+        private const int SearchValue = 5; // Value to search in collections
+        private const int RandomSize = 100;
         private List<int> _list = new List<int>();
+        private List<int> _listEmpty = new List<int>();
         private LinkedList<int> _linkedList = new LinkedList<int>();
+        private LinkedList<int> _linkedListEmpty = new LinkedList<int>();
         private HashSet<int> _hashSet = new HashSet<int>();
+        private HashSet<int> _hashSetEmpty = new HashSet<int>();
         private Dictionary<int, int> _dict = new Dictionary<int, int>();
+        private Dictionary<int, int> _dictEmpty = new Dictionary<int, int>();
         private SortedDictionary<int, int> _sortedDict = new SortedDictionary<int, int>();
+        private SortedDictionary<int, int> _sortedDictEmpty = new SortedDictionary<int, int>();
         private SortedSet<int> _sortedSet = new SortedSet<int>();
+        private SortedSet<int> _sortedSetEmpty = new SortedSet<int>();
         private Queue<int> _queue = new Queue<int>();
+        private Queue<int> _queueEmpty = new Queue<int>();
         private Stack<int> _stack = new Stack<int>();
+        private Stack<int> _stackEmpty = new Stack<int>();
 
         public EnumerableHelper() 
         {
@@ -47,7 +56,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _list.Add(value);
+                _listEmpty.Add(value);
             }
         }
         [Benchmark]
@@ -56,17 +65,17 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _list.Insert(0, value);
+                _listEmpty.Insert(0, value);
             }
         }
         [Benchmark]
         public void AddToListRandom()
         {
             int value = 5;
+            Random random = new Random(RandomSeed);
             for (int i = 0; i < Iterations; i++)
             {
-                Random random = new Random(RandomSeed);
-                _list.Insert(random.Next(_list.Count - 1), value);
+                _listEmpty.Insert(random.Next(_list.Count - 1), value);
             }
         }
         [Benchmark]
@@ -88,7 +97,7 @@ namespace Benchmark.Models
         [Benchmark]
         public void SearchList()
         {
-            int value = 5;
+            int value = SearchValue;
             for (int i = 0; i < Iterations; i++)
             {
                 for (int j = 0; j < _list.Count; j++)
@@ -120,7 +129,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _linkedList.AddLast(value);
+                _linkedListEmpty.AddLast(value);
             }
         }
         [Benchmark]
@@ -129,7 +138,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _linkedList.AddFirst(value);
+                _linkedListEmpty.AddFirst(value);
             }
         }
         [Benchmark]
@@ -200,23 +209,17 @@ namespace Benchmark.Models
         [Benchmark]
         public void AddToHashSetEnd()
         {
-            int value;
             for (int i = 0; i < Iterations; i++)
             {
-                value = _hashSet.Max() + 1;
-                _hashSet.Append(value);
-                value++;
+                _hashSetEmpty.Append(i);
             }
         }
         [Benchmark]
         public void AddToHashSetSimple()
         {
-            int value;
             for (int i = 0; i < Iterations; i++)
             {
-                value = _hashSet.Max() + 1;
-                _hashSet.Add(value);
-                value++;
+                _hashSetEmpty.Add(i);
             }
         }
         //[Benchmark] // Not sure how to do this
@@ -240,7 +243,6 @@ namespace Benchmark.Models
         [Benchmark]
         public void ReadFromHashSetEnd()
         {
-            int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
                 _hashSet.Last();
@@ -274,7 +276,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _dict.Append(new KeyValuePair<int, int>( _dict.Keys.Max() + 1,value));
+                _dictEmpty.Append(new KeyValuePair<int, int>( i,value));
             }
         }
         [Benchmark]
@@ -283,7 +285,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _dict.Add(_dict.Keys.Max() + 1, value);
+                _dictEmpty.Add(i, value);
             }
         }
         //[Benchmark]
@@ -347,7 +349,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _sortedDict.Append(new KeyValuePair<int, int>(_dict.Keys.Max() + 1, value));
+                _sortedDictEmpty.Append(new KeyValuePair<int, int>(i, value));
             }
         }
         [Benchmark]
@@ -356,7 +358,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _sortedDict.Add(_dict.Keys.Max() + 1, value);
+                _sortedDictEmpty.Add(i, value);
             }
         }
         //[Benchmark]
@@ -417,21 +419,17 @@ namespace Benchmark.Models
         [Benchmark]
         public void AddToSortedSetEnd()
         {
-            int value;
             for (int i = 0; i < Iterations; i++)
             {
-                value = _sortedSet.Max + 1;
-                _sortedSet.Append(value);
+                _sortedSetEmpty.Append(i);
             }
         }
         [Benchmark]
         public void AddToSortedSetSimple()
         {
-            int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                value = _sortedSet.Max + 1;
-                _sortedSet.Add(value);
+                _sortedSetEmpty.Add(i);
             }
         }
         //[Benchmark]
@@ -488,7 +486,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _queue.Enqueue(value);
+                _queueEmpty.Enqueue(value);
             }
         }
         //[Benchmark] // Not Possible
@@ -546,7 +544,7 @@ namespace Benchmark.Models
             int value = 5;
             for (int i = 0; i < Iterations; i++)
             {
-                _stack.Push(value);
+                _stackEmpty.Push(value);
             }
         }
         //[Benchmark] // Not Possible

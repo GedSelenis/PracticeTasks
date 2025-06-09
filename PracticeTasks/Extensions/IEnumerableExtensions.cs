@@ -45,16 +45,29 @@ namespace PracticeTasks.Extensions
 
             return minValues;
         }
-        public static List<int> CustomMin2(this IEnumerable<int> source, int n)
+        public static List<int> CustomMin2(this IEnumerable<int> source, int n) // Read about materiliaztion
         {
             if (source == null || !source.Any())
             {
                 throw new ArgumentException("Source collection cannot be null or empty.", nameof(source));
             }
             List<int> minValues = new List<int>();
-            source = source.ToList().Order();
-            
-            minValues = source.Take(n).ToList();
+            List<int> ExcludedIndexes = new List<int>();
+            for ( int i = 0; i < n; i++)
+            {
+                ExcludedIndexes.Add(-1);
+                int CurrentMin = int.MaxValue;
+                minValues.Add(CurrentMin);
+                for (int j = 0; j < source.Count(); j++)
+                {   
+                    if ( !ExcludedIndexes.Contains(j) && source.ElementAt(j) < minValues[i] && minValues[i]  >= CurrentMin)
+                    {
+                        CurrentMin = source.ElementAt(j);
+                        minValues[i] = CurrentMin;
+                        ExcludedIndexes[i] = j;
+                    }
+                }
+            }
 
             return minValues;
         }

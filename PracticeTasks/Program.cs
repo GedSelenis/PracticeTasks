@@ -19,8 +19,10 @@ Dictionary<string,string> addressDictionary = new Dictionary<string, string>()
 
 string name = "John";
 
-var address = GetAddressByNameSubstring(addressDictionary, name);
-Console.WriteLine(address);
+//var address = GetAddressByNameSubstring(addressDictionary, name);
+TernarySearchTreeDictionary addressTree = new TernarySearchTreeDictionary();
+addressTree.Insert(addressDictionary);
+Console.WriteLine(addressTree.PartialSearch(name));
 
 
 // Task 2
@@ -33,7 +35,7 @@ Console.WriteLine($"Fibanochi value: {FindFibanochi(6)}");
 
 // Task 5
 
-List<int> minValue2 = new[] { 5, 3, 8, 1, 4, 3, 7, 9 }.CustomMin(3);
+List<int> minValue2 = new[] { 5, 3, 8, 1, 4, 3, 7, 9 }.CustomMin2(3);
 foreach (var minValue in minValue2)
 {
     Console.WriteLine(minValue);
@@ -119,7 +121,7 @@ Console.WriteLine($"HashSet4 (ABC) count: {hashSet4.Count}"); // Output: 2
 [Benchmark] 
 string GetAddressByNameSubstring(Dictionary<string, string> addressDict, string nameSubstring)
 {
-    var address = addressDict.FirstOrDefault(x => x.Key.Contains(nameSubstring, StringComparison.OrdinalIgnoreCase)).Value;
+    var address = addressDict.Where(x => x.Key.Contains(nameSubstring, StringComparison.OrdinalIgnoreCase)).First().Value;
     return address ?? "Address not found";
 }
 
@@ -130,4 +132,37 @@ int FindFibanochi(int n)
         .ToList()
         .ForEach(index => FibSeqance.Add((index == 0 ? 0 : index ==1 ? 1 : FibSeqance[index - 2] + FibSeqance[index - 1])));
     return FibSeqance[n-1];
+} // Write witout using LINQ
+
+int FindFibanochi2(int n)
+{
+    List<int> fibonachi = new List<int>() { 0, 1};
+    for (int i = 0; i < n; i++)
+    {
+        fibonachi.Add(fibonachi[i] + fibonachi[i+1]);
+    }
+    return fibonachi[n];
+}
+int FindFibanochi3(int n)
+{
+    int first = 0;
+    int second = 1;
+    if (n == 0) return first;
+    else if (n == 1) return second;
+    for (int i = 0; i < n; i++)
+    {
+        int temp = first + second;
+        first = second;
+        second = temp;
+    }
+    return first;
+}
+
+int FindFibanochi4(int n)
+{
+    List<int> fibonachi = new List<int>() { 0, 1 };
+    Enumerable.Range(0, n)
+        .ToList()
+        .ForEach(index => { fibonachi.Add(fibonachi.Aggregate((a, b) => a + b)); fibonachi.RemoveAt(0); });
+    return fibonachi[0];
 }

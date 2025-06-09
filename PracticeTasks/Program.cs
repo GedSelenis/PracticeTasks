@@ -17,7 +17,7 @@ Dictionary<string,string> addressDictionary = new Dictionary<string, string>()
     ["Hannah Purple"] = "707 Ash St, Springfield, IL"
 };
 
-string name = "John";
+string name = "Diana";
 
 //var address = GetAddressByNameSubstring(addressDictionary, name);
 TernarySearchTreeDictionary addressTree = new TernarySearchTreeDictionary();

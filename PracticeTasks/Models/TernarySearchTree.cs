@@ -12,7 +12,7 @@ namespace PracticeTasks.Models
 
         public TernarySearchTreeDictionary()
         {
-            root = null;
+            root = new Node();
         }
 
         public void Insert(string key,string value)
@@ -41,6 +41,12 @@ namespace PracticeTasks.Models
             bool isEndOfWord = false;
             public Node left, equal, right;
             
+            public Node()
+            {
+                data = string.Empty;
+                key = 'E';
+                left = equal = right = null;
+            }
             public Node(string data)
             {
                 this.data = data;
@@ -89,12 +95,14 @@ namespace PracticeTasks.Models
                 else
                 {
                     string? leftResult = PartialSearch(node.left, key);
-                    string? rightResult = PartialSearch(node.right, key);
                     if (leftResult != null)
                     {
                         return leftResult; // Found in left subtree
                     }
-                    else if (rightResult != null)
+
+                    string? rightResult = PartialSearch(node.right, key);
+
+                    if (rightResult != null)
                     {
                         return rightResult; // Found in right subtree
                     }
@@ -110,7 +118,7 @@ namespace PracticeTasks.Models
                 if (node == null)
                 {
                     node = new Node(value);
-                    this.key = key[0];
+                    node.key = key[0];
                 }
                 if (key[0] < node.key)
                 {

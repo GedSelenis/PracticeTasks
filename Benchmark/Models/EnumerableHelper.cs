@@ -10,7 +10,7 @@ namespace Benchmark.Models
     [SimpleJob(launchCount: 1, warmupCount: 10, iterationCount: 10, invocationCount: 10)]
     public class EnumerableHelper
     {
-        private const int Iterations = 100000;
+        private const int Iterations = 1000;
         private const int BegginingListSize = 5;
         private const int RandomSeed = 5;
         private const int SearchValue = 5; // Value to search in collections
@@ -291,7 +291,8 @@ namespace Benchmark.Models
         public void AddToDictionarySimple()
         {
             int value = 5;
-            for (int i = 0; i < Iterations; i++)
+            int maxKey = _dictEmpty.Keys.Count > 0 ? _dictEmpty.Keys.Max() : 0; // Get the maximum key if exists, otherwise start from 0
+            for (int i = maxKey; i < Iterations+ maxKey; i++)
             {
                 _dictEmpty.Add(i, value);
             }
@@ -364,7 +365,8 @@ namespace Benchmark.Models
         public void AddToSortedDictionarySimple()
         {
             int value = 5;
-            for (int i = 0; i < Iterations; i++)
+            int maxKey = _sortedDictEmpty.Keys.Count > 0 ? _sortedDictEmpty.Keys.Max() : 0; // Get the maximum key if exists, otherwise start from 0
+            for (int i = maxKey; i < Iterations + maxKey; i++)
             {
                 _sortedDictEmpty.Add(i, value);
             }
